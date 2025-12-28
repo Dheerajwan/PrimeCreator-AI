@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PrimeCreator AI - AI-powered YouTube & Blog Content Builder with SEO Assistant. Generate optimized titles, descriptions, scripts, and complete content in seconds.">
+    <meta name="keywords" content="PrimeCreator AI, AI content generator, YouTube SEO, Blog SEO, content creator tools, AI writing assistant">
+    <title>PrimeCreator AI - YouTube & Blog Content Builder + SEO Assistant</title>
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PrimeCreator AI",
+        "description": "Generate SEO-optimized content for YouTube and blogs instantly with AI",
+        "applicationCategory": "BusinessApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --bg-light: #ffffff;
+            --bg-dark: #0f172a;
+            --text-light: #1e293b;
+            --text-dark: #f1f5f9;
+            --card-light: #f8fafc;
+            --card-dark: #1e293b;
+            --border-light: #e2e8f0;
+            --border-dark: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        /* 3D Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode nav {
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tool Container */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .tool-card {
+            background: var(--card-light);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-light);
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        body.dark-mode .tool-card {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .input-section {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        input, select, textarea {
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--border-light);
+            background: var(--bg-light);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode input,
+        body.dark-mode select,
+        body.dark-mode textarea {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            border-color: var(--border-dark);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Output Section */
+        .output-section {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .output-section.active {
+            display: grid;
+        }
+
+        .output-card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .output-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: var(--border-dark);
+        }
+
+        .output-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .output-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .output-content {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border-light);
+        }
+
+        body.dark-mode .output-content {
+            background: var(--bg-dark);
+            border-color: var(--border-dark);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* SEO Content Section */
+        .content-section {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 2rem;
+        }
+
+        .content-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .content-section h3 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: var(--secondary);
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 2rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .faq-item {
+            background: var(--card-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        body.dark-mode .faq-item {
+            background: var(--card-dark);
+        }
+
+        .faq-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-light);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        body.dark-mode footer {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Language Selector */
+        .lang-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .lang-selector select {
+            padding: 0.7rem 1rem;
+            border-radius: 25px;
+            border: 2px solid var(--primary);
+            background: var(--bg-light);
+            color: var(--text-light);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        body.dark-mode .lang-selector select {
+            background: var(--card-dark);
+            color: var(--text-dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .output-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mt-4 { margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">✨ PrimeCreator AI</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#tool">Tool</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>🚀 PrimeCreator AI</h1>
+        <p>Generate your full ranking content suite in one click with our powerful AI-powered SEO Assistant</p>
+    </section>
+
+    <!-- Main Tool -->
+    <div class="container" id="tool">
+        <div class="tool-card">
+            <h2 class="text-center mb-2">🎯 Generate Your Content Now</h2>
+            
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="topic">📝 Enter Your Topic or Keyword</label>
+                    <input type="text" id="topic" placeholder="e.g., How to start a YouTube channel" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="tone">🎨 Select Tone</label>
+                    <select id="tone">
+                        <option value="professional">Professional</option>
+                        <option value="casual">Casual</option>
+                        <option value="motivational">Motivational</option>
+                        <option value="informative">Informative</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="platform">🎯 Select Platform</label>
+                    <select id="platform">
+                        <option value="both">Both (YouTube + Blog)</option>
+                        <option value="youtube">YouTube Only</option>
+                        <option value="blog">Blog Only</option>
+                    </select>
+                </div>
+
+                <button class="btn-primary" onclick="generateContent()">✨ Generate Content</button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Generating your amazing content...</p>
+            </div>
+
+            <div class="output-section" id="output">
+                <!-- YouTube Content -->
+                <div class="output-card youtube-content">
+                    <h3>🎬 Video Title</h3>
+                    <div class="output-content" id="videoTitle"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('videoTitle')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card youtube-content">
+                    <h3>📄 Video Description</h3>
+                    <div class="output-content" id="videoDesc"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('videoDesc')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card youtube-content">
+                    <h3>#️⃣ Hashtags</h3>
+                    <div class="output-content" id="hashtags"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('hashtags')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card youtube-content">
+                    <h3>🏷️ Tags</h3>
+                    <div class="output-content" id="tags"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('tags')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card youtube-content">
+                    <h3>📜 Full Script</h3>
+                    <div class="output-content" id="script"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('script')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- Blog Content -->
+                <div class="output-card blog-content">
+                    <h3>📰 Blog Title</h3>
+                    <div class="output-content" id="blogTitle"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('blogTitle')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card blog-content">
+                    <h3>📋 Blog Outline</h3>
+                    <div class="output-content" id="blogOutline"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('blogOutline')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card blog-content">
+                    <h3>✍️ Blog Intro</h3>
+                    <div class="output-content" id="blogIntro"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('blogIntro')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card blog-content">
+                    <h3>🔍 SEO Meta Title</h3>
+                    <div class="output-content" id="metaTitle"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('metaTitle')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card blog-content">
+                    <h3>📝 SEO Meta Description</h3>
+                    <div class="output-content" id="metaDesc"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('metaDesc')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <div class="output-card blog-content">
+                    <h3>💬 CTA Text</h3>
+                    <div class="output-content" id="cta"></div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyText('cta')">📋 Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn-secondary" onclick="exportAllContent()" style="display: none;" id="exportBtn">💾 Export All to TXT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <div class="content-section" id="features">
+        <h2>What is PrimeCreator AI?</h2>
+        <p>PrimeCreator AI is a revolutionary AI-powered content builder designed specifically for content creators, marketers, and digital entrepreneurs who want to dominate search rankings and create engaging content efficiently. This comprehensive platform combines advanced artificial intelligence with proven SEO strategies to generate complete content suites for both YouTube videos and blog posts in seconds.</p>
+
+        <p>Whether you're a seasoned content creator or just starting your digital journey, PrimeCreator AI eliminates the time-consuming process of brainstorming titles, writing descriptions, crafting scripts, and optimizing metadata. Instead of spending hours on content planning, you can now generate professional-quality, SEO-optimized content with just a few clicks.</p>
+
+        <h3>Why Content Creators Need This Tool</h3>
+        <p>In today's competitive digital landscape, success requires more than just great ideas. You need optimized content that ranks well on search engines and resonates with your target audience. Here's why thousands of creators trust our platform:</p>
+
+        <ul>
+            <li><strong>Time Efficiency:</strong> Generate complete content packages in under 60 seconds instead of spending hours on research and writing</li>
+            <li><strong>SEO Optimization:</strong> Every piece of content is crafted with search engine algorithms in mind, improving your chances of ranking</li>
+            <li><strong>Consistency:</strong> Maintain a regular publishing schedule without burnout by streamlining your content creation process</li>
+            <li><strong>Professional Quality:</strong> Access enterprise-level content creation capabilities without expensive subscriptions or hiring writers</li>
+            <li><strong>Multi-Platform Support:</strong> Create optimized content for both YouTube and blogs from a single interface</li>
+            <li><strong>Customization:</strong> Adjust tone and style to match your brand voice perfectly</li>
+        </ul>
+
+        <h3>How to Rank YouTube Videos Using Our Tool</h3>
+        <p>YouTube is the world's second-largest search engine, and ranking your videos requires strategic optimization. Our tool helps you implement proven ranking factors:</p>
+
+        <ol>
+            <li><strong>Keyword-Optimized Titles:</strong> Our AI analyzes search trends to create titles that include primary keywords naturally while maintaining click-worthiness</li>
+            <li><strong>Comprehensive Descriptions:</strong> Generate detailed video descriptions that include relevant keywords, timestamps, and call-to-actions</li>
+            <li><strong>Strategic Tags:</strong> Get a curated list of primary, secondary, and long-tail keyword tags that help YouTube understand your content</li>
+            <li><strong>Engaging Hashtags:</strong> Receive trending and relevant hashtags that increase discoverability</li>
+            <li><strong>Full Scripts:</strong> Create structured video scripts that keep viewers engaged and watching longer, signaling quality to YouTube's algorithm</li>
+        </ol>
+
+        <p>The key to YouTube SEO success is creating content that satisfies both search algorithms and human viewers. Our tool ensures your metadata is optimized while your actual content remains engaging and valuable.</p>
+
+        <h3>How to Rank Blog Posts for Maximum Traffic</h3>
+        <p>Blog SEO requires a different approach than video optimization. Our tool generates everything needed for high-ranking blog content:</p>
+
+        <ul>
+            <li><strong>SEO-Friendly Titles:</strong> Titles optimized for search intent with proper keyword placement and emotional triggers</li>
+            <li><strong>Structured Outlines:</strong> Comprehensive content outlines that cover all aspects of your topic, satisfying search intent</li>
+            <li><strong>Compelling Introductions:</strong> Engaging opening paragraphs that reduce bounce rates and keep readers on your page</li>
+            <li><strong>Meta Tags:</strong> Perfectly crafted meta titles and descriptions that improve click-through rates from search results</li>
+            <li><strong>Strategic CTAs:</strong> Conversion-optimized calls-to-action that turn readers into subscribers or customers</li>
+        </ul>
+
+        <h3>Benefits Compared to Other Content Tools</h3>
+        <p>Unlike generic AI writing tools or expensive SEO platforms, our solution offers unique advantages:</p>
+
+        <ul>
+            <li>Purpose-built for content creators, not generic marketing copy</li>
+            <li>Generates complete content suites, not just individual pieces</li>
+            <li>No monthly subscription fees or usage limits</li>
+            <li>Optimized specifically for YouTube and blog platforms</li>
+            <li>Intuitive interface requiring no technical knowledge</li>
+            <li>Multi-language support for global audiences</li>
+            <li>Regular updates based on latest SEO trends</li>
+            <li>Privacy-focused with no data collection</li>
+        </ul>
+
+        <h3>Step-by-Step Usage Guide</h3>
+        <p>Getting started with our AI Content Builder is simple and straightforward:</p>
+
+        <ol>
+            <li><strong>Enter Your Topic:</strong> Type in your main topic or target keyword in the input field. Be specific for best results.</li>
+            <li><strong>Choose Your Tone:</strong> Select from Professional, Casual, Motivational, or Informative tones to match your brand voice.</li>
+            <li><strong>Select Platform:</strong> Choose whether you need content for YouTube, blogs, or both platforms.</li>
+            <li><strong>Generate Content:</strong> Click the generate button and watch as AI creates your complete content suite in seconds.</li>
+            <li><strong>Review and Customize:</strong> Read through the generated content and make any adjustments to personalize it further.</li>
+            <li><strong>Copy and Use:</strong> Use the copy buttons to transfer content to your preferred platform or export everything at once.</li>
+        </ol>
+
+        <h3>Advanced Tips for Maximum Results</h3>
+        <p>To get the most out of our tool, consider these expert strategies:</p>
+
+        <ul>
+            <li>Research trending topics in your niche before generating content</li>
+            <li>Combine AI-generated content with your personal insights and experiences</li>
+            <li>Use the tool multiple times to generate variations and choose the best options</li>
+            <li>Customize the generated content to include specific examples relevant to your audience</li>
+            <li>Test different tones to see which resonates best with your viewers or readers</li>
+            <li>Keep generated content saved for future reference and repurposing</li>
+        </ul>
+
+        <h3>Understanding Content Strategy in 2024</h3>
+        <p>Modern content creation isn't just about publishing regularly—it's about strategic optimization. Search engines now prioritize helpful, people-first content that demonstrates expertise and provides genuine value. Our tool helps you create content that meets these evolving standards by focusing on comprehensive coverage of topics, natural keyword integration, and user-focused writing.</p>
+
+        <p>The landscape of digital content continues to evolve, with AI-assisted creation becoming mainstream. However, the key difference between successful creators and everyone else is the ability to combine AI efficiency with human creativity and authenticity. Use our tool as a foundation, then add your unique perspective, experiences, and personality to create content that truly stands out.</p>
+
+        <h2 class="mt-4">Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <h4>Is this tool really free to use?</h4>
+            <p>Yes! Our AI Content Builder is completely free with no hidden costs, subscriptions, or usage limits. We believe in democratizing access to professional content creation tools.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>How accurate is the AI-generated content?</h4>
+            <p>Our AI uses advanced natural language processing to generate highly relevant and contextually accurate content. However, we always recommend reviewing and personalizing the output to match your specific needs and brand voice.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>Can I use the generated content commercially?</h4>
+            <p>Absolutely! All content generated by our tool is yours to use freely for any purpose, including commercial projects, client work, or personal content creation.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>Will using AI content hurt my SEO rankings?</h4>
+            <p>No. Search engines evaluate content based on quality, relevance, and user satisfaction—not how it was created. Our tool generates SEO-optimized content that meets search engine guidelines. The key is to review and enhance the AI output with your expertise.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>How often should I use this tool?</h4>
+            <p>Use it as often as you need! Many successful creators use our tool for every piece of content they publish to ensure consistency and optimization. There are no usage restrictions.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>Can I save my generated content?</h4>
+            <p>Yes! You can copy individual sections or export all content at once. We recommend saving your generated content in your preferred note-taking app or content management system.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>Does this work for any niche or topic?</h4>
+            <p>Our AI is trained on diverse content across virtually all topics and industries. Whether you create content about technology, lifestyle, education, entertainment, or any other niche, the tool will generate relevant, optimized content.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>What makes PrimeCreator AI different from ChatGPT or other AI tools?</h4>
+            <p>While general AI tools are versatile, PrimeCreator AI is specifically designed and optimized for content creators. We focus exclusively on YouTube and blog SEO, providing structured outputs tailored for these platforms rather than generic text generation.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="about">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>PrimeCreator AI is passionate about empowering content creators with AI tools that make professional content creation accessible to everyone.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tool">Generator Tool</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">YouTube SEO Guide</a></li>
+                    <li><a href="#">Blog Writing Tips</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section" id="contact">
+                <h4>Contact</h4>
+                <p>Email: support@primecreator.ai</p>
+                <p>Follow us on social media for updates and tips!</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
+            <p>&copy; 2024 PrimeCreator AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Language Selector -->
+    <div class="lang-selector">
+        <select onchange="changeLanguage(this.value)">
+            <option value="en">🇬🇧 English</option>
+            <option value="hi">🇮🇳 हिंदी</option>
+            <option value="ur">🇵🇰 اردو</option>
+            <option value="ar">🇸🇦 العربية</option>
+        </select>
+    </div>
+
+    <script>
+        // 3D Background Animation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.z = Math.random() * 1000;
+                this.speed = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.z -= this.speed;
+                if (this.z <= 0) {
+                    this.z = 1000;
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                const scale = 1000 / (1000 + this.z);
+                const x2d = (this.x - canvas.width / 2) * scale + canvas.width / 2;
+                const y2d = (this.y - canvas.height / 2) * scale + canvas.height / 2;
+                const size = (1 - this.z / 1000) * 3;
+
+                ctx.fillStyle = `rgba(99, 102, 241, ${1 - this.z / 1000})`;
+                ctx.beginPath();
+                ctx.arc(x2d, y2d, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.querySelector('.theme-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.textContent = '☀️ Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.textContent = '🌙 Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️ Light Mode';
+        }
+
+        // Content Generation Logic
+        function generateContent() {
+            const topic = document.getElementById('topic').value.trim();
+            const tone = document.getElementById('tone').value;
+            const platform = document.getElementById('platform').value;
+
+            if (!topic) {
+                alert('Please enter a topic or keyword!');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('output').classList.remove('active');
+            document.getElementById('exportBtn').style.display = 'none';
+
+            // Simulate AI processing
+            setTimeout(() => {
+                const content = generateAIContent(topic, tone, platform);
+                displayResults(content, platform);
+                
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('output').classList.add('active');
+                document.getElementById('exportBtn').style.display = 'inline-block';
+            }, 2000);
+        }
+
+        function generateAIContent(topic, tone, platform) {
+            const toneStyles = {
+                professional: { prefix: 'Professional Guide:', style: 'formal and authoritative' },
+                casual: { prefix: 'Hey! Check This Out:', style: 'friendly and conversational' },
+                motivational: { prefix: 'Transform Your Life:', style: 'inspiring and energetic' },
+                informative: { prefix: 'Everything About:', style: 'educational and detailed' }
+            };
+
+            const selectedTone = toneStyles[tone];
+
+            return {
+                videoTitle: `${selectedTone.prefix} ${topic} | Complete ${new Date().getFullYear()} Guide`,
+                videoDesc: `Welcome to the ultimate guide on ${topic}! In this comprehensive video, we'll cover everything you need to know to master ${topic}.\n\n🎯 What You'll Learn:\n• Understanding the fundamentals of ${topic}\n• Step-by-step implementation strategies\n• Common mistakes to avoid\n• Pro tips and best practices\n• Real-world examples and case studies\n\n⏰ Timestamps:\n0:00 - Introduction\n2:30 - Getting Started\n5:45 - Advanced Techniques\n10:20 - Common Pitfalls\n14:00 - Conclusion\n\n💡 Don't forget to LIKE, SUBSCRIBE, and hit the BELL ICON for more amazing content!\n\n🔗 Helpful Resources:\n[Add your links here]\n\n#${topic.replace(/\s+/g, '')} #Tutorial #Guide`,
+                hashtags: `#${topic.replace(/\s+/g, '')} #${topic.split(' ')[0]} #Tutorial #HowTo #Guide${new Date().getFullYear()} #LearnOnline #Education #Tips #Beginner #Advanced`,
+                tags: `${topic}, ${topic} tutorial, ${topic} guide, how to ${topic}, ${topic} tips, ${topic} ${new Date().getFullYear()}, ${topic} for beginners, learn ${topic}, ${topic} step by step, best ${topic} tutorial`,
+                script: `[INTRO]\nHey everyone! Welcome back to the channel. Today we're diving deep into ${topic}, and I promise this will be the most comprehensive guide you'll find online.\n\n[HOOK]\nWhether you're a complete beginner or looking to level up your skills, this video has something for everyone. So let's jump right in!\n\n[MAIN CONTENT]\nFirst, let's understand what ${topic} really means. ${topic} is essential because it helps you achieve [benefit]. Many people struggle with ${topic}, but I'm here to break it down into simple, actionable steps.\n\nStep 1: Understanding the Basics\nThe foundation of ${topic} starts with understanding [key concept]. This is crucial because without this knowledge, everything else becomes confusing.\n\nStep 2: Practical Implementation\nNow that we understand the theory, let's put it into practice. Here's exactly what you need to do...\n\nStep 3: Advanced Strategies\nOnce you've mastered the basics, these advanced techniques will take your ${topic} skills to the next level.\n\n[CONCLUSION]\nAnd there you have it! Everything you need to know about ${topic}. Remember, the key to success is consistent practice and never giving up.\n\nIf you found this helpful, smash that like button and subscribe for more content. Drop your questions in the comments below, and I'll see you in the next video!`,
+                blogTitle: `${selectedTone.prefix} ${topic} - Ultimate ${new Date().getFullYear()} Resource`,
+                blogOutline: `I. Introduction to ${topic}\n   A. What is ${topic}?\n   B. Why ${topic} matters in ${new Date().getFullYear()}\n   C. Who should learn about ${topic}?\n\nII. Understanding the Fundamentals\n   A. Core concepts of ${topic}\n   B. Key terminology\n   C. Common misconceptions\n\nIII. Getting Started with ${topic}\n   A. Prerequisites and requirements\n   B. Tools and resources needed\n   C. Setting up for success\n\nIV. Step-by-Step Implementation Guide\n   A. Beginner-level strategies\n   B. Intermediate techniques\n   C. Advanced methods\n\nV. Best Practices and Pro Tips\n   A. Industry standards\n   B. Expert recommendations\n   C. Optimization strategies\n\nVI. Common Mistakes to Avoid\n   A. Pitfalls and challenges\n   B. How to overcome obstacles\n   C. Learning from failures\n\nVII. Real-World Applications\n   A. Case studies\n   B. Success stories\n   C. Practical examples\n\nVIII. Conclusion and Next Steps\n   A. Key takeaways\n   B. Action items\n   C. Further resources`,
+                blogIntro: `Are you ready to master ${topic}? Whether you're just starting out or looking to enhance your existing knowledge, this comprehensive guide will provide you with everything you need to succeed. In today's fast-paced digital world, understanding ${topic} has become more crucial than ever. This ${selectedTone.style} guide will walk you through every aspect of ${topic}, from basic fundamentals to advanced strategies used by industry professionals. By the end of this article, you'll have a clear roadmap to implementing ${topic} effectively in your own projects. Let's dive in and unlock the full potential of ${topic} together!`,
+                metaTitle: `${topic} - Complete Guide & Best Practices ${new Date().getFullYear()}`,
+                metaDesc: `Discover everything about ${topic} with our comprehensive guide. Learn proven strategies, expert tips, and step-by-step instructions to master ${topic} today!`,
+                cta: `Ready to take action? Start implementing these ${topic} strategies today and see real results! Subscribe to our newsletter for more expert tips, download our free ${topic} checklist, and join thousands of successful individuals who have transformed their approach to ${topic}. Don't wait – your success story starts now!`
+            };
+        }
+
+        function displayResults(content, platform) {
+            const outputs = {
+                videoTitle: content.videoTitle,
+                videoDesc: content.videoDesc,
+                hashtags: content.hashtags,
+                tags: content.tags,
+                script: content.script,
+                blogTitle: content.blogTitle,
+                blogOutline: content.blogOutline,
+                blogIntro: content.blogIntro,
+                metaTitle: content.metaTitle,
+                metaDesc: content.metaDesc,
+                cta: content.cta
+            };
+
+            Object.keys(outputs).forEach(key => {
+                document.getElementById(key).textContent = outputs[key];
+            });
+
+            // Show/Hide content based on platform selection
+            const youtubeCards = document.querySelectorAll('.youtube-content');
+            const blogCards = document.querySelectorAll('.blog-content');
+
+            if (platform === 'youtube') {
+                // Show only YouTube content
+                youtubeCards.forEach(card => card.style.display = 'block');
+                blogCards.forEach(card => card.style.display = 'none');
+            } else if (platform === 'blog') {
+                // Show only Blog content
+                youtubeCards.forEach(card => card.style.display = 'none');
+                blogCards.forEach(card => card.style.display = 'block');
+            } else {
+                // Show both (default: both)
+                youtubeCards.forEach(card => card.style.display = 'block');
+                blogCards.forEach(card => card.style.display = 'block');
+            }
+
+            // Save to history
+            saveToHistory(content);
+        }
+
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Copied to clipboard!');
+            }).catch(err => {
+                console.error('Copy failed:', err);
+            });
+        }
+
+        function exportAllContent() {
+            const platform = document.getElementById('platform').value;
+            let content = '=== PRIMECREATOR AI - GENERATED CONTENT ===\n\n';
+            
+            const youtubeElements = {
+                videoTitle: 'VIDEO TITLE',
+                videoDesc: 'VIDEO DESCRIPTION',
+                hashtags: 'HASHTAGS',
+                tags: 'TAGS',
+                script: 'FULL SCRIPT'
+            };
+            
+            const blogElements = {
+                blogTitle: 'BLOG TITLE',
+                blogOutline: 'BLOG OUTLINE',
+                blogIntro: 'BLOG INTRO',
+                metaTitle: 'SEO META TITLE',
+                metaDesc: 'SEO META DESCRIPTION',
+                cta: 'CALL TO ACTION'
+            };
+
+            // Export based on platform selection
+            if (platform === 'youtube') {
+                content += '\n📺 YOUTUBE CONTENT\n';
+                Object.keys(youtubeElements).forEach(id => {
+                    const text = document.getElementById(id).textContent;
+                    content += `\n--- ${youtubeElements[id]} ---\n${text}\n`;
+                });
+            } else if (platform === 'blog') {
+                content += '\n📝 BLOG CONTENT\n';
+                Object.keys(blogElements).forEach(id => {
+                    const text = document.getElementById(id).textContent;
+                    content += `\n--- ${blogElements[id]} ---\n${text}\n`;
+                });
+            } else {
+                // Both platforms
+                content += '\n📺 YOUTUBE CONTENT\n';
+                Object.keys(youtubeElements).forEach(id => {
+                    const text = document.getElementById(id).textContent;
+                    content += `\n--- ${youtubeElements[id]} ---\n${text}\n`;
+                });
+                
+                content += '\n\n📝 BLOG CONTENT\n';
+                Object.keys(blogElements).forEach(id => {
+                    const text = document.getElementById(id).textContent;
+                    content += `\n--- ${blogElements[id]} ---\n${text}\n`;
+                });
+            }
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `primecreator-ai-${platform}-${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function saveToHistory(content) {
+            try {
+                let history = JSON.parse(localStorage.getItem('contentHistory') || '[]');
+                history.unshift({
+                    timestamp: new Date().toISOString(),
+                    content: content
+                });
+                history = history.slice(0, 10); // Keep last 10
+                localStorage.setItem('contentHistory', JSON.stringify(history));
+            } catch (e) {
+                console.log('History not saved');
+            }
+        }
+
+        function changeLanguage(lang) {
+            const translations = {
+                en: {
+                    hero: '🚀 PrimeCreator AI',
+                    subtitle: 'Generate your full ranking content suite in one click with our powerful AI-powered SEO Assistant'
+                },
+                hi: {
+                    hero: '🚀 PrimeCreator AI',
+                    subtitle: 'हमारे शक्तिशाली AI-संचालित SEO सहायक के साथ एक क्लिक में अपना पूर्ण रैंकिंग सामग्री सूट उत्पन्न करें'
+                },
+                ur: {
+                    hero: '🚀 PrimeCreator AI',
+                    subtitle: 'ہمارے طاقتور AI سے چلنے والے SEO اسسٹنٹ کے ساتھ ایک کلک میں اپنا مکمل رینکنگ مواد بنائیں'
+                },
+                ar: {
+                    hero: '🚀 PrimeCreator AI',
+                    subtitle: 'أنشئ مجموعة المحتوى الكاملة بنقرة واحدة مع مساعد SEO القوي المدعوم بالذكاء الاصطناعي'
+                }
+            };
+
+            if (translations[lang]) {
+                document.querySelector('.hero h1').textContent = translations[lang].hero;
+                document.querySelector('.hero p').textContent = translations[lang].subtitle;
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
